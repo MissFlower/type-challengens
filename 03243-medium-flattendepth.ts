@@ -14,14 +14,14 @@ type cases = [
 
 
 // ============= Your Code Here =============
-type Flatten<A extends unknown[]> = 
+type ShadowFlatten<A extends unknown[]> = 
   A extends [infer X, ...infer Y] ? 
-    X extends unknown[] ? [...X, ...Flatten<Y>] : [X, ...Flatten<Y>] :
+    X extends unknown[] ? [...X, ...ShadowFlatten<Y>] : [X, ...ShadowFlatten<Y>] :
     [];
 
 type FlattenDepth<Target extends unknown[], Depth extends number = 1, Arr extends unknown[] = []> = 
   Arr['length'] extends Depth ? 
     Target :
-    Flatten<Target> extends Target ?
+    ShadowFlatten<Target> extends Target ?
       Target :
-      FlattenDepth<Flatten<Target>, Depth, [unknown, ...Arr]>
+      FlattenDepth<ShadowFlatten<Target>, Depth, [unknown, ...Arr]>
